@@ -2,7 +2,7 @@ REMOTE ?= origin
 
 APSTRA_COLLECTION_ROOT := ansible_collections/juniper/apstra
 
-VERSION := $(shell sed -n '/^version: / s,.*"\(.*\)"$$,\1,p' $(APSTRA_COLLECTION_ROOT)/galaxy.yml)
+# VERSION := $(shell sed -n '/^version: / s,.*"\(.*\)"$$,\1,p' $(APSTRA_COLLECTION_ROOT)/galaxy.yml)
 
 APSTRA_COLLECTION := $(APSTRA_COLLECTION_ROOT)/juniper-apstra-$(VERSION).tar.gz
 
