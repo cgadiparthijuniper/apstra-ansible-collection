@@ -59,7 +59,7 @@ tag:
 	git push --tags
 
 image: build
-        make update-version
+    make update-version
 	mkdir -p build/collections
 	rm -f build/collections/juniper-apstra.tar.gz
 	cp "$(APSTRA_COLLECTION)" build/collections/juniper-apstra.tar.gz
