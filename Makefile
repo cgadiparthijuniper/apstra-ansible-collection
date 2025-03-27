@@ -29,7 +29,7 @@ CERT_PATH = $(shell python -m certifi 2>/dev/null)
 export SSL_CERT_FILE=$(CERT_PATH)
 export REQUESTS_CA_BUNDLE=$(CERT_PATH)
 
-setup: clean-pipenv update-version
+setup: clean-pipenv
 	pyenv uninstall --force $(PY_VERSION)
 	rm -rf $(HOME)/.pyenv/versions/$(PY_VERSION)
 	$(PYENV_INSTALL_PREFIX) pyenv install --force $(PY_VERSION)
@@ -59,14 +59,13 @@ tag:
 	git push --tags
 
 image: build
-	make update-version
 	mkdir -p build/collections
 	rm -f build/collections/juniper-apstra.tar.gz
 	cp "$(APSTRA_COLLECTION)" build/collections/juniper-apstra.tar.gz
 	TAG=$(VERSION) pipenv run build/build_image.sh
+
 update-version: 
-        sed -i "s/\(version:\s*\).*/\1$VERSION/" $(APSTRA_COLLECTION_ROOT)/galaxy.yml)
-        
+        sed -i "s/\(version:\s*\).*/\1$VERSION/" $(APSTRA_COLLECTION_ROOT)/galaxy.yml)       
 
 release-build: docs
 	make build
@@ -107,7 +106,6 @@ install: build
 	pipenv run ansible-galaxy collection install --ignore-certs --force $(APSTRA_COLLECTION)
 
 .PHONY: test \
-        update-version \
 	test-apstra_facts \
 	test-blueprint \
 	test-virtual_network \
@@ -147,7 +145,7 @@ test-tag: install
 test-resource_group: install
 	pipenv run ansible-playbook $(ANSIBLE_FLAGS) $(APSTRA_COLLECTION_ROOT)/tests/resource_group.yml
 
-test: update-version test-apstra_facts test-blueprint test-virtual_network test-routing_policy test-security_zone test-endpoint_policy test-tag test-resource_group
+test: test-apstra_facts test-blueprint test-virtual_network test-routing_policy test-security_zone test-endpoint_policy test-tag test-resource_group
 
 clean-pipenv:
 	PIPENV_VENV_IN_PROJECT= pipenv --rm 2>/dev/null || true
