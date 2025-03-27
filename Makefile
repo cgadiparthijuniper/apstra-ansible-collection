@@ -29,7 +29,7 @@ CERT_PATH = $(shell python -m certifi 2>/dev/null)
 export SSL_CERT_FILE=$(CERT_PATH)
 export REQUESTS_CA_BUNDLE=$(CERT_PATH)
 
-setup: clean-pipenv
+setup: clean-pipenv update-version
 	pyenv uninstall --force $(PY_VERSION)
 	rm -rf $(HOME)/.pyenv/versions/$(PY_VERSION)
 	$(PYENV_INSTALL_PREFIX) pyenv install --force $(PY_VERSION)
@@ -146,7 +146,7 @@ test-tag: install
 test-resource_group: install
 	pipenv run ansible-playbook $(ANSIBLE_FLAGS) $(APSTRA_COLLECTION_ROOT)/tests/resource_group.yml
 
-test: update-version test-apstra_facts test-blueprint test-virtual_network test-routing_policy test-security_zone test-endpoint_policy test-tag test-resource_group
+test: test-apstra_facts test-blueprint test-virtual_network test-routing_policy test-security_zone test-endpoint_policy test-tag test-resource_group
 
 clean-pipenv:
 	PIPENV_VENV_IN_PROJECT= pipenv --rm 2>/dev/null || true
