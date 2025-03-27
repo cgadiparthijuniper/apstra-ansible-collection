@@ -65,7 +65,7 @@ image: build
 	cp "$(APSTRA_COLLECTION)" build/collections/juniper-apstra.tar.gz
 	TAG=$(VERSION) pipenv run build/build_image.sh
 update-version: 
-        sed -i 's/\(version:\s*\).*/\1$(VERSION)/' $(APSTRA_COLLECTION_ROOT)/galaxy.yml)
+        sed -i "s/\(version:\s*\).*/\1$VERSION/" $(APSTRA_COLLECTION_ROOT)/galaxy.yml)
         
 
 release-build: docs
