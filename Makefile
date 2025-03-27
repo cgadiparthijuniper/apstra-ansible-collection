@@ -13,7 +13,7 @@ PY_VERSION := $(shell cat .python-version)
 
 APSTRA_COLLECTION = juniper-apstra-$(VERSION).tar.gz
 
-.PHONY: setup build release-build install clean clean-pipenv pipenv docs tag image
+.PHONY: setup update-version build release-build install clean clean-pipenv pipenv docs tag image
 
 # OS-specific settings
 OS := $(shell uname -s)
