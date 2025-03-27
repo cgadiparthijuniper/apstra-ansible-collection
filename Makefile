@@ -2,7 +2,7 @@ REMOTE ?= origin
 
 APSTRA_COLLECTION_ROOT := ansible_collections/juniper/apstra
 
-# VERSION := $(shell sed -n '/^version: / s,.*"\(.*\)"$$,\1,p' $(APSTRA_COLLECTION_ROOT)/galaxy.yml)
+VERSION := $(shell sed -n '/^version: / s,.*"\(.*\)"$$,\1,p' $(APSTRA_COLLECTION_ROOT)/galaxy.yml)
 
 APSTRA_COLLECTION := $(APSTRA_COLLECTION_ROOT)/juniper-apstra-$(VERSION).tar.gz
 
@@ -13,7 +13,7 @@ PY_VERSION := $(shell cat .python-version)
 
 APSTRA_COLLECTION = juniper-apstra-$(VERSION).tar.gz
 
-.PHONY: setup update-version build release-build install clean clean-pipenv pipenv docs tag image
+.PHONY: setup build release-build install clean clean-pipenv pipenv docs tag image
 
 # OS-specific settings
 OS := $(shell uname -s)
@@ -63,9 +63,6 @@ image: build
 	rm -f build/collections/juniper-apstra.tar.gz
 	cp "$(APSTRA_COLLECTION)" build/collections/juniper-apstra.tar.gz
 	TAG=$(VERSION) pipenv run build/build_image.sh
-
-update-version: 
-	sed -i "s/\(version:\s*\).*/\1$(VERSION)/" $(APSTRA_COLLECTION_ROOT)/galaxy.yml     
 
 release-build: docs
 	make build
