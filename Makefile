@@ -59,10 +59,14 @@ tag:
 	git push --tags
 
 image: build
+        make update-version
 	mkdir -p build/collections
 	rm -f build/collections/juniper-apstra.tar.gz
 	cp "$(APSTRA_COLLECTION)" build/collections/juniper-apstra.tar.gz
 	TAG=$(VERSION) pipenv run build/build_image.sh
+update-version: 
+        sed -i 's/\(version:\s*\).*/\1$(VERSION)/' $(APSTRA_COLLECTION_ROOT)/galaxy.yml)
+        
 
 release-build: docs
 	make build
