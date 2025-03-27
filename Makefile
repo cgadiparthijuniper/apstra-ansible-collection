@@ -146,7 +146,7 @@ test-tag: install
 test-resource_group: install
 	pipenv run ansible-playbook $(ANSIBLE_FLAGS) $(APSTRA_COLLECTION_ROOT)/tests/resource_group.yml
 
-test: test-apstra_facts test-blueprint test-virtual_network test-routing_policy test-security_zone test-endpoint_policy test-tag test-resource_group
+test: update-version test-apstra_facts test-blueprint test-virtual_network test-routing_policy test-security_zone test-endpoint_policy test-tag test-resource_group
 
 clean-pipenv:
 	PIPENV_VENV_IN_PROJECT= pipenv --rm 2>/dev/null || true
