@@ -2,7 +2,7 @@ REMOTE ?= origin
 
 APSTRA_COLLECTION_ROOT := ansible_collections/juniper/apstra
 
-VERSION := $(shell sed -n '/^version: / s,.*"\(.*\)"$$,\1,p' $(APSTRA_COLLECTION_ROOT)/galaxy.yml)-$(SHORT_COMMIT)
+VERSION := $(shell sed -n '/^version: / s,.*"\(.*\)"$$,\1,p' $(APSTRA_COLLECTION_ROOT)/galaxy.yml)
 
 APSTRA_COLLECTION := $(APSTRA_COLLECTION_ROOT)/juniper-apstra-$(VERSION).tar.gz
 
@@ -69,7 +69,8 @@ release-build: docs
 
 build: $(APSTRA_COLLECTION_ROOT)/.apstra-collection
 update-version:
-	sed -i "s/\(version:\s*\).*/\1$(VERSION)/" $(APSTRA_COLLECTION_ROOT)/galaxy.yml
+	VER := $(shell sed -n '/^version: / s,.*"\(.*\)"$$,\1,p' $(APSTRA_COLLECTION_ROOT)/galaxy.yml)-$(SHORT_COMMIT)
+	sed -i "s/\(version:\s*\).*/\1$(VER)/" $(APSTRA_COLLECTION_ROOT)/galaxy.yml
 
 APSTRA_COLLECTION_DOCS_BUILD := ansible_collections/juniper/apstra/_build
 
