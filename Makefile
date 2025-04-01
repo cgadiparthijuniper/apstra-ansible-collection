@@ -69,7 +69,7 @@ release-build: docs
 
 build: $(APSTRA_COLLECTION_ROOT)/.apstra-collection
 update-version:
-	sed -i "s/\(version:\s*\).*/\1$VERSION/" $(APSTRA_COLLECTION_ROOT)/galaxy.yml
+	sed -i "s/\(version:\s*\).*/\1$(VERSION)/" $(APSTRA_COLLECTION_ROOT)/galaxy.yml
 
 APSTRA_COLLECTION_DOCS_BUILD := ansible_collections/juniper/apstra/_build
 
