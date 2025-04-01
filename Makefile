@@ -29,7 +29,9 @@ CERT_PATH = $(shell python -m certifi 2>/dev/null)
 export SSL_CERT_FILE=$(CERT_PATH)
 export REQUESTS_CA_BUNDLE=$(CERT_PATH)
 
-setup: clean-pipenv
+setup: 
+	make update-version
+	clean-pipenv
 	pyenv uninstall --force $(PY_VERSION)
 	rm -rf $(HOME)/.pyenv/versions/$(PY_VERSION)
 	$(PYENV_INSTALL_PREFIX) pyenv install --force $(PY_VERSION)
@@ -68,6 +70,8 @@ release-build: docs
 	make build
 
 build: $(APSTRA_COLLECTION_ROOT)/.apstra-collection
+update-version:
+	sed -i "s/\(version:\s*\).*/\1$VERSION/" $(APSTRA_COLLECTION_ROOT)/galaxy.yml
 
 APSTRA_COLLECTION_DOCS_BUILD := ansible_collections/juniper/apstra/_build
 
