@@ -70,7 +70,7 @@ release-build: docs
 build: $(APSTRA_COLLECTION_ROOT)/.apstra-collection
 NEWVER := $(shell sed -n '/^version: / s,.*"\(.*\)"$$,\1,p' $(APSTRA_COLLECTION_ROOT)/galaxy.yml)-$(SHORT_COMMIT)
 update-version:
-	sed -i "s/\(version:\s*\).*/\1/"$(NEWVER)/"/" $(APSTRA_COLLECTION_ROOT)/galaxy.yml
+	sed -i "s/\(version:\s*\).*/\1"$(NEWVER)"/" $(APSTRA_COLLECTION_ROOT)/galaxy.yml
 APSTRA_COLLECTION_DOCS_BUILD := ansible_collections/juniper/apstra/_build
 
 docs: pipenv install
