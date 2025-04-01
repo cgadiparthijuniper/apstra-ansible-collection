@@ -29,9 +29,7 @@ CERT_PATH = $(shell python -m certifi 2>/dev/null)
 export SSL_CERT_FILE=$(CERT_PATH)
 export REQUESTS_CA_BUNDLE=$(CERT_PATH)
 
-setup: 
-	make update-version
-	clean-pipenv
+setup:  clean-pipenv
 	pyenv uninstall --force $(PY_VERSION)
 	rm -rf $(HOME)/.pyenv/versions/$(PY_VERSION)
 	$(PYENV_INSTALL_PREFIX) pyenv install --force $(PY_VERSION)
