@@ -252,6 +252,7 @@ msg:
 """
 
 import traceback
+from time import sleep
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.juniper.apstra.plugins.module_utils.apstra.client import (
@@ -793,13 +794,28 @@ def main():
 
             # Return the final object state (avoid re-reading after updates
             # because SDK may return stale cached data; for creates, fetch
-            # the full server-populated object)
+            # the full server-populated object).
+            # NOTE: Apstra does not support individual SZ GET by ID
+            # (/security-zones/{id} returns 404); list all and find by ID.
+            # The new SZ may not appear in the list immediately, so retry.
             if current_object is not None:
                 result[leaf_object_type] = current_object
             else:
-                result[leaf_object_type] = client_factory.object_request(
-                    object_type=object_type, op="get", id=id, retry=10, retry_delay=3
-                )
+                sz_id = id.get(leaf_object_type)
+                result[leaf_object_type] = None
+                for _attempt in range(10):
+                    all_szs_response = client_factory.object_request(
+                        object_type=object_type,
+                        op="get",
+                        id={"blueprint": id["blueprint"]},
+                    )
+                    # SDK returns a flat dict keyed by SZ ID: {sz_id: {...}, ...}
+                    if isinstance(all_szs_response, dict):
+                        sz = all_szs_response.get(sz_id)
+                        if sz is not None:
+                            result[leaf_object_type] = sz
+                            break
+                    sleep(3)
 
             # Apply interface IP assignments if specified
             if interfaces_ip_assignments:
