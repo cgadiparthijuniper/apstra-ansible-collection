@@ -19,7 +19,6 @@ This repository contains the Juniper Apstra Ansible Collection, which provides a
     - [Setup](#setup)
       - [Mac OS X](#mac-os-x)
       - [Linux-based Systems](#linux-based-systems)
-      - [All Systems](#all-systems)
     - [Usage](#usage)
     - [Test Configuration](#test-configuration)
     - [Image Build](#image-build)
@@ -56,6 +55,8 @@ Ansible is an agentless automation tool. You write **playbooks** — plain YAML 
 | **Register** | Saves a task's output to a variable for use in later tasks |
 
 ### Step 1 — Install Ansible and This Collection
+
+When installing directly from this repository, `make setup` installs the Apstra SDK (`aos-sdk-api`) automatically; no manual download is required. Its version is pinned to `6.1.2` in `Pipfile`; update it to match your Apstra server version before running setup.
 
 ```bash
 # Install Ansible (Python 3.12 recommended)
@@ -239,24 +240,6 @@ The following tools are recommended for development of this collection:
       sudo apt -y install build-essential liblzma-dev libbz2-dev zlib1g zlib1g-dev libssl-dev libcrypt-dev libffi-dev libsqlite3-dev
       ```
 
-#### All Systems
-
-1. The Apstra SDK (`aos-sdk-api`) is available on [PyPI](https://pypi.org/project/aos-sdk-api/) and is installed automatically when you run `make setup`. No manual download is required.
-
-   The SDK version is pinned in `Pipfile`:
-   ```toml
-   [packages]
-   aos-sdk-api = "==6.1.2"
-   ```
-   Update this version to match your Apstra server version before running `make setup`.
-
-2. Run the setup `make` target:
-   ```bash
-   make setup
-   ```
-
-3. Optional: Follow [pipenv command completion setup instructions](https://pipenv.pypa.io/en/stable/shell.html#shell-completion). Only do it if pipenv is installed in your global Python interpreter.
-
 ### Usage
 
 To use the development environment after setting everything up, simply run the commands:
@@ -265,6 +248,8 @@ To use the development environment after setting everything up, simply run the c
   pipenv install --dev
   pipenv shell
   ```
+
+Optional: Follow [pipenv command completion setup instructions](https://pipenv.pypa.io/en/stable/shell.html#shell-completion). Only do it if pipenv is installed in your global Python interpreter.
 
 This will start a new interactive prompt in which the known supported version of Ansible and required dependencies to use the Apstra SDK is installed.
 
